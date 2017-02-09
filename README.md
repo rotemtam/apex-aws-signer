@@ -39,14 +39,19 @@ For example, if you're using ElasticSearch with [@olivere](github.com/olivere)'s
 import (
     "github.com/edoardo849/apex-aws-signer"
     "github.com/apex/log"
+    "github.com/aws/aws-sdk-go/aws"
+    "github.com/aws/aws-sdk-go/aws/session"
     "github.com/aws/aws-sdk-go/service/elasticsearchservice"
     "gopkg.in/olivere/elastic.v3"
 )
 
 // Example For ElasticSearch
 // ctx is the *apex.Context
+
+
+session := session.New(&aws.Config{Region: aws.String("us-east-1")})
 ctxLogger := log.WithField("requestID", ctx.RequestID)
-transport := signer.NewTransport(s, elasticsearchservice.ServiceName)
+transport := signer.NewTransport(session, elasticsearchservice.ServiceName)
 
 // This is optional
 transport.Logger = ctxLogger
